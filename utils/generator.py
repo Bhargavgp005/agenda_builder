@@ -7,6 +7,27 @@ def generate_agenda(api_key: str, topic: str, description: str, duration: int) -
     if not api_key:
         raise ValueError("Anthropic API key is required.")
         
+    if api_key.lower() == "demo":
+        return f"""# 📝 Meeting Agenda: {topic}
+**Duration**: {duration} minutes
+
+### 1. 🧊 Icebreaker & Welcome (5 mins)
+- Quick check-in with all attendees.
+- Review meeting objectives: {description}
+
+### 2. 📊 Status Updates (15 mins)
+- Round-robin updates from team leads.
+- Blockers and challenges.
+
+### 3. 🎯 Deep Dive: {topic} ({(duration - 30) if duration > 30 else 5} mins)
+- Open discussion on main topic.
+- Action items mapping.
+
+### 4. 🏁 Wrap-up & Next Steps (10 mins)
+- Assign action items.
+- Confirm date for next sync.
+"""
+
     client = anthropic.Anthropic(api_key=api_key)
     
     prompt = f"""
